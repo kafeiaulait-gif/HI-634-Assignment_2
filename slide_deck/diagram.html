@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Everything of Thoughts (XoT) Workflow Diagram</title>
+    <style>
+        :root {
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-sub: #64748b;
+            --primary: #0f766e;
+            --primary-light: #ccfbf1;
+            --accent: #0284c7;
+            --accent-light: #e0f2fe;
+            --border: #e2e8f0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            border: 1px solid var(--border);
+        }
+
+        h2 {
+            color: var(--primary);
+            margin-top: 0;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: var(--text-sub);
+            margin-bottom: 40px;
+            font-size: 1.1rem;
+        }
+
+        .workflow {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            position: relative;
+        }
+
+        .node {
+            background: var(--card-bg);
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            padding: 16px 24px;
+            width: 80%;
+            max-width: 500px;
+            text-align: center;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .node h3 {
+            margin: 0 0 8px 0;
+            font-size: 1.1rem;
+        }
+
+        .node p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: var(--text-sub);
+            line-height: 1.4;
+        }
+
+        /* Specific Node Stylings */
+        .node-input {
+            border-color: var(--text-main);
+            background-color: #f1f5f9;
+        }
+
+        .node-explorer {
+            border-color: var(--accent);
+            background-color: var(--accent-light);
+        }
+
+        .node-explorer h3 {
+            color: var(--accent);
+        }
+
+        .node-llm {
+            border-color: var(--primary);
+            background-color: var(--primary-light);
+        }
+
+        .node-llm h3 {
+            color: var(--primary);
+        }
+
+        .node-output {
+            border-color: #10b981;
+            background-color: #ecfdf5;
+        }
+
+        .node-output h3 {
+            color: #047857;
+        }
+
+        /* Connector Arrows */
+        .arrow {
+            width: 2px;
+            height: 25px;
+            background-color: var(--border);
+            position: relative;
+        }
+
+        .arrow::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: -4px;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-top: 6px solid var(--border);
+        }
+
+        .arrow-active {
+            background-color: var(--primary);
+        }
+
+        .arrow-active::after {
+            border-top-color: var(--primary);
+        }
+
+        /* Controls Block */
+        .controls {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            border: none;
+            transition: background-color 0.2s ease;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #0d635c;
+        }
+
+        .btn-secondary {
+            background-color: #e2e8f0;
+            color: var(--text-main);
+        }
+
+        .btn-secondary:hover {
+            background-color: #cbd5e1;
+        }
+
+        /* Active highlight animation */
+        .active-node {
+            transform: scale(1.03);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+            border-width: 3px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Everything of Thoughts (XoT) Architecture</h2>
+    <div class="subtitle">Visual flow guide for Slide 3: Prompting Workflow</div>
+
+    <div class="workflow">
+        <!-- Step 1 -->
+        <div class="node node-input" id="node1">
+            <h3>1. Input & Instructions</h3>
+            <p><strong>Input:</strong> Dense, multi-layered healthcare file (e.g., complex patient histories).<br>
+            <strong>Prompt:</strong> "Analyze this history and map out alternative, specialized care paths."</p>
+        </div>
+
+        <div class="arrow" id="arrow1"></div>
+
+        <!-- Step 2 -->
+        <div class="node node-explorer" id="node2">
+            <h3>2. External Search Assistant (MCTS + RL)</h3>
+            <p>A fast, lightweight simulator maps out dozens of different "thought pathways" entirely offline without wasting expensive LLM energy.</p>
+        </div>
+
+        <div class="arrow" id="arrow2"></div>
+
+        <!-- Step 3 -->
+        <div class="node node-llm" id="node3">
+            <h3>3. Collaborative Handoff to LLM</h3>
+            <p>The assistant bundles the highest-scoring pre-sorted paths together and passes them straight to the primary medical LLM.</p>
+        </div>
+
+        <div class="arrow" id="arrow3"></div>
+
+        <!-- Step 4 -->
+        <div class="node node-output" id="node4">
+            <h3>4. Optimized Final Output</h3>
+            <p>The LLM generates multiple comprehensive, tailored medical options simultaneously using just <strong>one highly efficient AI call</strong>.</p>
+        </div>
+    </div>
+
+    <div class="controls">
+        <button class="btn-secondary" onclick="resetWorkflow()">Reset</button>
+        <button class="btn-primary" onclick="nextStep()">Next Step</button>
+    </div>
+</div>
+
+<script>
+    let currentStep = 1;
+    const maxSteps = 4;
+
+    function updateUI() {
+        // Reset all classes
+        for (let i = 1; i <= maxSteps; i++) {
+            document.getElementById(`node${i}`).classList.remove('active-node');
+            if (i < maxSteps) {
+                document.getElementById(`arrow${i}`).classList.remove('arrow-active');
+            }
+        }
+
+        // Add highlight to current step
+        document.getElementById(`node${currentStep}`).classList.add('active-node');
+        
+        // Highlight active pathways up to current step
+        for (let i = 1; i < currentStep; i++) {
+            document.getElementById(`arrow${i}`).classList.add('arrow-active');
+        }
+    }
+
+    function nextStep() {
+        if (currentStep < maxSteps) {
+            currentStep++;
+        } else {
+            currentStep = 1; // Loop back
+        }
+        updateUI();
+    }
+
+    function resetWorkflow() {
+        currentStep = 1;
+        updateUI();
+    }
+
+    // Initialize first view
+    updateUI();
+</script>
+
+</body>
+</html>
